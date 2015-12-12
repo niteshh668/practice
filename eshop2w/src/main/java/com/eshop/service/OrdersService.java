@@ -4,14 +4,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.eshop.dao.Order;
 import com.eshop.dao.OrderDAOJDBCImpl;
 import com.eshop.dao.OrdersDAO;
 
 import oracle.sql.DATE;
 
+@Service
 public class OrdersService {
-	OrdersDAO dao = new OrderDAOJDBCImpl();
+	@Autowired
+	OrdersDAO dao;
 
 	public void placeOrder(int customerId, Order order) {
 
@@ -24,8 +29,7 @@ public class OrdersService {
 		List<Order> ordersForTheMonth = new ArrayList<Order>();
 		int currentMonth = new Date().getMonth();
 		for (Order order : ordersForTheMonth) {
-			if(order.getOrderDate().getMonth()==currentMonth)
-			{
+			if (order.getOrderDate().getMonth() == currentMonth) {
 				ordersForTheMonth.add(order);
 			}
 		}

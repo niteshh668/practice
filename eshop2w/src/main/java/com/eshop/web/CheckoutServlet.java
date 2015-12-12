@@ -12,10 +12,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.eshop.dao.Order;
 import com.eshop.dao.OrderDAOJDBCImpl;
 import com.eshop.dao.OrdersDAO;
 import com.eshop.dao.Product;
+import com.eshop.service.OrdersService;
 
 /**
  * Servlet implementation class CheckoutServlet
@@ -41,12 +45,12 @@ public class CheckoutServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		List<Product> products = (List<Product>) session.getAttribute("ShoppingCart");
 		String orderNumber = UUID.randomUUID().toString();
-
+		ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+		OrdersService orderService = context.getBean(OrdersService.class);
 		double orderAmount = getOrderAmount(products);
 		session.removeAttribute("ShoppingCart");
 		Order o = new Order(1, orderNumber, new Date(), orderAmount, products);
-		OrdersDAO dao = new OrderDAOJDBCImpl();
-		dao.createOrder(101, o);
+		orderService.placeOrder(101, o);
 		request.setAttribute("onum", o);
 
 		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/jsp/order_confirmation.jsp");

@@ -11,6 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.eshop.dao.Product;
 import com.eshop.dao.ProductDAOJDBCImpl;
 import com.eshop.dao.ProductsDAO;
@@ -39,7 +42,8 @@ public class ShoppingCartServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		int id = Integer.parseInt(request.getParameter("productId"));
 		HttpSession session = request.getSession();
-		ProductsService service = new ProductsService();
+		ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+		ProductsService service = context.getBean(ProductsService.class);
 		Product product = service.getById(id);
 		if ((session.getAttribute("ShoppingCart")) == null) {
 			List<Product> products = new ArrayList<Product>();

@@ -7,8 +7,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import org.eclipse.jdt.internal.compiler.ast.ThrowStatement;
 
+import javax.jws.WebService;
+
+import org.eclipse.jdt.internal.compiler.ast.ThrowStatement;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
+@Repository
 public class OrderDAOJDBCImpl extends BaseDAO implements OrdersDAO {
 
 	@Override
